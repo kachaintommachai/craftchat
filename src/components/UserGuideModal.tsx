@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   X,
-  BookOpen,
   MessageSquare,
   Phone,
   Video,
@@ -56,8 +55,8 @@ export const UserGuideModal: React.FC<UserGuideModalProps> = ({
         {/* Top Header */}
         <div className="h-14 px-4 sm:px-6 bg-gradient-to-r from-emerald-600 via-line-green to-teal-500 text-white flex items-center justify-between flex-shrink-0 shadow-sm">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center">
-              <BookOpen className="w-5 h-5 text-white" />
+            <div className="w-8 h-8 rounded-xl bg-white/20 backdrop-blur flex items-center justify-center overflow-hidden p-0.5 shadow-xs">
+              <img src="/craftchat.png" alt="CraftChat Logo" className="w-full h-full object-cover rounded-lg" />
             </div>
             <div>
               <h2 className="text-sm sm:text-base font-bold flex items-center gap-1.5 leading-tight">

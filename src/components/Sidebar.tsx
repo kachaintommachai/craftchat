@@ -39,9 +39,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {/* Desktop Vertical Sidebar (LINE PC Style) */}
       <div className="hidden md:flex w-16 bg-line-sidebar flex-col items-center py-4 select-none justify-between h-full border-r border-gray-800 z-20 flex-shrink-0">
       {/* Top Group: Profile avatar & Navigation buttons */}
-      <div className="flex flex-col items-center space-y-4 w-full">
+      <div className="flex flex-col items-center space-y-3 w-full">
+        {/* CraftChat Brand Logo */}
+        <div className="w-10 h-10 rounded-xl overflow-hidden shadow-md border border-white/20 p-0.5 bg-black/20 hover:scale-105 transition-transform cursor-pointer" title="CraftChat">
+          <img src="/craftchat.png" alt="CraftChat Logo" className="w-full h-full object-cover rounded-lg" />
+        </div>
+
         {/* User Profile Avatar with Online Pulse & Status Sticker Badge */}
-        <div className="flex flex-col items-center gap-1.5">
+        <div className="flex flex-col items-center gap-1.5 pt-1">
           <div 
             onClick={onOpenAvatarModal || onViewMyProfile}
             className="relative cursor-pointer group"

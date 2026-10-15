@@ -101,12 +101,15 @@ export const PeerList: React.FC<PeerListProps> = ({
       {/* Top Header & Search Box */}
       <div className="p-3 border-b border-gray-100 dark:border-gray-800 flex flex-col gap-2.5">
         <div className="flex items-center justify-between">
-          <h2 className="text-sm font-bold text-gray-800 dark:text-gray-100 flex items-center gap-1.5">
-            <span>เครือข่ายแลน</span>
-            <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 font-semibold">
-              {peers.length} เครื่อง
-            </span>
-          </h2>
+          <div className="flex items-center gap-2">
+            <img src="/craftchat.png" alt="CraftChat Logo" className="w-6 h-6 rounded-lg object-cover shadow-xs border border-gray-200 dark:border-gray-700" />
+            <h2 className="text-sm font-bold text-gray-800 dark:text-gray-100 flex items-center gap-1.5">
+              <span>เครือข่ายแลน</span>
+              <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 font-semibold">
+                {peers.length} เครื่อง
+              </span>
+            </h2>
+          </div>
           <div className="flex items-center gap-1">
             <button
               onClick={onStartBluetoothScan}

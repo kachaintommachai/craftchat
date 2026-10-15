@@ -6,7 +6,6 @@ import {
   Reply,
   X,
   FileText,
-  ShieldCheck,
   CheckCheck,
   Download,
   FolderOpen,
@@ -131,8 +130,8 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
   if (!peer && !group) {
     return (
       <div className="flex-1 flex flex-col items-center justify-center bg-gray-50 dark:bg-[#181B20] text-gray-400 select-none">
-        <div className="w-16 h-16 rounded-full bg-gray-200 dark:bg-gray-800 flex items-center justify-center text-gray-400 mb-3">
-          <ShieldCheck className="w-8 h-8 text-line-green opacity-80" />
+        <div className="w-20 h-20 rounded-2xl overflow-hidden shadow-lg border-2 border-line-green/30 mb-3 bg-white dark:bg-gray-800 p-1 flex items-center justify-center">
+          <img src="/craftchat.png" alt="CraftChat Logo" className="w-full h-full object-cover rounded-xl" />
         </div>
         <h3 className="text-sm font-bold text-gray-700 dark:text-gray-300">
           CraftChat - LAN Peer-to-Peer
