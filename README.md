@@ -4,42 +4,47 @@
 
 ---
 
-## 📥 ดาวน์โหลดไฟล์โปรแกรมพร้อมใช้งาน (Direct Downloads)
+## 📥 ดาวน์โหลดโปรแกรมพร้อมใช้งาน (Direct Downloads)
 
-ดาวน์โหลดไฟล์สำเร็จรูปพร้อมใช้งานทันที ไม่จำเป็นต้องติดตั้งหรือคอมไพล์โค้ด:
+ดาวน์โหลดไฟล์สำเร็จรูปพร้อมเปิดใช้งานหน้าต่างโปรแกรม (GUI) ได้ทันที โดยไม่ต้องติดตั้ง ไม่ต้องต่อเน็ต และไม่ต้องคอมไพล์โค้ด:
 
-| ระบบปฏิบัติการ | ชนิดไฟล์ | ขนาด | ลิงก์ดาวน์โหลด | วิธีใช้งานเบื้องต้น |
-| :--- | :---: | :---: | :--- | :--- |
-| 🪟 **Windows** | `.exe` | 3.7 MB | [⬇️ ดาวน์โหลด CraftChat.exe](https://github.com/kachaintommachai/craftchat/raw/main/releases/windows/CraftChat.exe) | ดับเบิลคลิกเปิดใช้งานได้ทันทีบน Windows 10/11 |
-| 🐧 **Linux** | `.AppImage` | 4.3 MB | [⬇️ ดาวน์โหลด CraftChat-x86_64.AppImage](https://github.com/kachaintommachai/craftchat/raw/main/releases/linux/CraftChat-x86_64.AppImage) | ให้สิทธิ์ `chmod +x` แล้วดับเบิลคลิกเปิดหน้าต่างแอพได้ทันที |
-| 🍏 **macOS** | `.app` / `.zip` | 2.4 MB | [⬇️ ดาวน์โหลด CraftChat-macOS.zip](https://github.com/kachaintommachai/craftchat/raw/main/releases/macos/CraftChat-macOS.zip) | แตกซิปแล้วลาก `CraftChat.app` ลงโฟลเดอร์ Applications |
+| ระบบปฏิบัติการ | แพ็กเกจ / ชนิดไฟล์ | ขนาด | ลิงก์ดาวน์โหลด | วิธีใช้งาน |
+| :--- | :--- | :---: | :--- | :--- |
+| 🪟 **Windows** | **Standalone GUI (.zip)** *(แนะนำ)* | 11 MB | [⬇️ ดาวน์โหลด CraftChat-Windows.zip](https://github.com/kachaintommachai/craftchat/raw/main/releases/windows/CraftChat-Windows.zip) | แตกไฟล์ ดับเบิลคลิก `CraftChat.exe` เปิดหน้าต่างโปรแกรมทันที |
+| 🪟 **Windows** | Portable Launcher (`.exe`) | 280 KB | [⬇️ ดาวน์โหลด CraftChat.exe](https://github.com/kachaintommachai/craftchat/raw/main/releases/windows/CraftChat.exe) | ไบนารี Launcher เปิดโปรแกรมแบบรวดเร็ว |
+| 🐧 **Linux** | **Standalone AppImage** *(แนะนำ)* | 4.9 MB | [⬇️ ดาวน์โหลด CraftChat-x86_64.AppImage](https://github.com/kachaintommachai/craftchat/raw/main/releases/linux/CraftChat-x86_64.AppImage) | ให้สิทธิ์ `chmod +x` แล้วดับเบิลคลิกเปิดใช้งานได้ทันที |
+| 🐧 **Linux** | Portable Archive (`.tar.gz`) | 5.6 MB | [⬇️ ดาวน์โหลด CraftChat-Linux-Portable.tar.gz](https://github.com/kachaintommachai/craftchat/raw/main/releases/linux/CraftChat-Linux-Portable.tar.gz) | แตกไฟล์ ดับเบิลคลิก `craftchat.sh` (สำหรับเครื่องที่ไม่มี FUSE) |
+| 🍏 **macOS** | **Application Bundle (.zip)** | 5.1 MB | [⬇️ ดาวน์โหลด CraftChat-macOS.zip](https://github.com/kachaintommachai/craftchat/raw/main/releases/macos/CraftChat-macOS.zip) | แตกไฟล์ ลาก `CraftChat.app` เข้า Applications เปิดได้ทันที |
 
-> 📁 **คลังไฟล์ติดตั้งทั้งหมดบน GitHub:** [https://github.com/kachaintommachai/craftchat/tree/main/releases](https://github.com/kachaintommachai/craftchat/tree/main/releases)  
-> 📖 **คู่มือการคอมไพล์ในแต่ละ OS:** ดูรายละเอียดได้ที่ [OS_BUILD_GUIDE.md](OS_BUILD_GUIDE.md)
+> 📁 **คลังไฟล์ติดตั้งและแพ็กเกจทั้งหมดบน GitHub:** [https://github.com/kachaintommachai/craftchat/tree/main/releases](https://github.com/kachaintommachai/craftchat/tree/main/releases)  
+> 📖 **คู่มือเจาะลึกแต่ละ OS:** ดูรายละเอียดได้ที่ [releases/README.md](releases/README.md) และ [OS_BUILD_GUIDE.md](OS_BUILD_GUIDE.md)
 
 ---
 
 ## จุดเด่นและคุณสมบัติ (Key Features)
 
-1. **LINE PC Style Interface**:
-   - แถบเมนูด้านซ้าย (Sidebar) สไตล์ LINE PC (Chats, Friends, Settings, Profile Avatar, Dark Mode toggle)
-   - หน้าต่างแชท Bubble เขียว-ขาวสไตล์ LINE รองรับ Dark Mode อัตโนมัติ
-   - ระบบ **ตอบกลับข้อความ (Reply)** พร้อม Preview ข้อความต้นฉบับ
-   - ระบบ **สติกเกอร์แสดงอารมณ์ (Sticker System)**: LINE Friends (บราวน์, โคนี่, แซลลี่), สัตว์เลี้ยงน่ารัก และ Reactions พร้อมตัวเลือกส่งแบบ 1-click
-   - ระบบ **จับภาพหน้าจอและวาดเส้น (Screen Capture & Annotation)**: จับภาพจอหรือหน้าต่างโปรแกรม, วาดเส้นอิสระ, ตีกรอบสี่เหลี่ยมเน้นข้อความ, ชี้ลูกศร, ปรับสีและความหนาเส้น พร้อมปุ่มส่งเข้าห้องแชททันที
-   - ระบบ **โทรด้วยเสียงและวิดีโอคอล (Voice & Video Call)**: ถอดแบบหน้าต่างคอล LINE PC พร้อมกล่องสายเรียกเข้า, ตัวจับเวลาสนทนา, กล้อง Picture-in-Picture, เปิด/ปิดไมค์, สลับกล้อง และแชร์หน้าจอ (Screen Sharing) โดยใช้ WebRTC สตรีมข้อมูลตรงผ่านวง LAN โดยไม่ต้องต่อเน็ตและไม่ต้องมีเซิร์ฟเวอร์ STUN/TURN
-   - ระบบ **โปรไฟล์และรายละเอียดเครื่อง (Device Profile Card)**: กดที่ไอคอนคนเพื่อดูชื่อเครื่องคอมพิวเตอร์ (Hostname), IP Address, Port, และกุญแจเข้ารหัส
-   - ระบบ **ส่งไฟล์และรูปภาพ** แบบ Drag & Drop พร้อมระบุขนาดและปุ่มเปิดโฟลเดอร์ไฟล์ปลายทาง
-2. **Auto-Discovery ในวง LAN (mDNS)**:
-   - ค้นหาเครื่องเพื่อนหรืออุปกรณ์อื่นๆ ใน Subnet วงแลนเดียวกันโดยอัตโนมัติ (Zero-configuration ผ่าน `mdns-sd`)
-3. **P2P Direct Connection & Chunked Streaming**:
-   - สื่อสารระหว่างเครื่องผ่าน **TCP Socket โดยตรง** ไม่ต้องผ่านตัวกลาง
-   - รับส่งไฟล์ขนาดใหญ่แบบแบ่ง Chunk (64 KB/chunk) พร้อมคำนวณ Progress
-4. **Local End-to-End Encryption (E2EE)**:
-   - กุญแจแลกเปลี่ยน **X25519**
-   - เข้ารหัสข้อความและไฟล์มีเดียด้วย **XChaCha20-Poly1305** พร้อม Nonce 24-byte ป้องกันการถูกดักฟังในวงแลน (Packet Sniffing / ARP Spoofing)
-5. **Local Storage (SQLite)**:
-   - เก็บประวัติการแชทและข้อมูลเพื่อนในเครื่องผู้ใช้ด้วย SQLite (`rusqlite`) เปิดโหมด **WAL (Write-Ahead Logging)**
+1. **Standalone GUI Launcher ทุก OS (Zero-Configuration)**:
+   - เปิดใช้งานได้ทันทีในหน้าต่าง Desktop App เสมือนแอพพลิเคชัน Native
+   - มีระบบ Keep-Alive Embedded Server ป้องกันปัญหาเชื่อมต่อไม่ได้ (*This site can't be reached*)
+   - ใช้งานแบบ **Air-Gapped 100%** ไม่ต้องเชื่อมต่ออินเทอร์เน็ต และไม่มีเซิร์ฟเวอร์ส่วนกลาง
+2. **ระบบธีมสีพรีเมียม (Royal Red & Gold) พร้อม Theme Customizer**:
+   - ธีมเริ่มต้นเน้น **สีขาว แดง ทอง และดำ** สวยงาม หรูหรา สบายตา และมีเอกลักษณ์
+   - ผู้ใช้งานสามารถเลือกเปลี่ยนธีมเองได้ตามใจชอบ เช่น *LINE Classic Green*, *Sapphire Ocean*, *Cyberpunk Dark* พร้อมสลับโหมดมืด (Dark Mode) และโหมดสว่าง (Light Mode) ทันที
+3. **LINE PC Style Interface & Full Communication**:
+   - หน้าต่างแชท Bubble เขียว/แดง/ขาว ตามธีมที่เลือก พร้อมระบบตอบกลับข้อความ (Reply)
+   - **ระบบเดาสติกเกอร์อัตโนมัติ (Predictive Stickers)**: พิมพ์คำว่า "ขอบคุณ", "555", "รัก", "โกรธ", "ดีใจ" ระบบจะแนะนำสติกเกอร์ขึ้นมาให้กดส่งได้ทันที 1-Click
+   - **คลังสติกเกอร์ LINE Official & Flaticon Message**: หมี Brown, โคนี่ Cony, แซลลี่ Sally, และไอคอนอารมณ์กว่า 100 แบบ
+   - **โทรด้วยเสียงและวิดีโอคอล (Voice & Video Call)**: เชื่อมต่อคุยเสียงและวิดีโอแบบ P2P ผ่านวง LAN ชัดเจน ไร้ดีเลย์ และไม่ต้องมีเซิร์ฟเวอร์ STUN/TURN
+   - **เครื่องมือจับภาพหน้าจอและวาดเขียน (Screen Capture & Annotation)**: แคปหน้าจอคอม วาดเส้น ปากกา ตีกรอบสี่เหลี่ยม ชี้ลูกศร และส่งเข้าห้องแชททันที
+   - **ส่งไฟล์และรูปภาพไม่จำกัดขนาด**: สตรีมมิ่งไฟล์แบบแบ่ง Chunk ด้วยความเร็วเต็มสปีดของสายแลนและ Wi-Fi
+4. **Auto-Discovery ในวง LAN (mDNS) & Bluetooth ไร้เน็ต**:
+   - ค้นหาเครื่องเพื่อนร่วมงานในเครือข่ายอัตโนมัติ ไม่ต้องกรอก IP หรือพอร์ต
+   - รองรับโหมด Bluetooth Low Energy (BLE P2P) เมื่ออยู่ในพื้นที่ไม่มีสัญญาณ Wi-Fi และไม่มีเราเตอร์
+5. **Local End-to-End Encryption (E2EE)**:
+   - แลกเปลี่ยนกุญแจด้วย **X25519**
+   - เข้ารหัสข้อความและไฟล์ด้วย **XChaCha20-Poly1305** มาตรฐานความปลอดภัยระดับสากล ปลอดภัยจากการดักฟัง 100%
+6. **Local Storage (SQLite WAL)**:
+   - บันทึกประวัติการแชทและรายชื่อเพื่อนไว้ในเครื่องผู้ใช้ด้วย SQLite พร้อมโหมด WAL รวดเร็วและปลอดภัย
 
 ---
 

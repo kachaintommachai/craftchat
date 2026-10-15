@@ -15,6 +15,8 @@ import {
   Sparkles,
   Info,
   LayoutGrid,
+  Palette,
+  Monitor,
 } from 'lucide-react';
 
 interface UserGuideModalProps {
@@ -24,6 +26,8 @@ interface UserGuideModalProps {
 
 type GuideSection =
   | 'start'
+  | 'platforms'
+  | 'themes'
   | 'chat'
   | 'call'
   | 'network'
@@ -41,6 +45,8 @@ export const UserGuideModal: React.FC<UserGuideModalProps> = ({
 
   const sections = [
     { id: 'start', label: 'เริ่มต้นใช้งาน', icon: Sparkles, desc: 'ภาพรวมระบบ & การเชื่อมต่อ LAN' },
+    { id: 'platforms', label: 'การรันบน Windows / Linux / Mac', icon: Monitor, desc: 'เปิดใช้งาน GUI ทันทีไม่ต้องลงโปรแกรม' },
+    { id: 'themes', label: 'ธีม & การปรับแต่งสีสัน', icon: Palette, desc: 'ธีมแดงทองหรูหรา, โหมดมืด & ธีมคัสตอม' },
     { id: 'chat', label: 'แชท, ไฟล์ & สติกเกอร์', icon: MessageSquare, desc: 'ข้อความ, สตรีมไฟล์, เดาสติกเกอร์' },
     { id: 'call', label: 'โทร, วิดีโอ & วาดภาพ', icon: Phone, desc: 'โทรฟรีในแลน, แคปหน้าจอ, วาดเส้น' },
     { id: 'network', label: 'QUIC & Bluetooth ไร้เน็ต', icon: Zap, desc: 'UDP 0-RTT และ BLE P2P Proximity' },
@@ -168,6 +174,122 @@ export const UserGuideModal: React.FC<UserGuideModalProps> = ({
                         แตะที่ชื่อเพื่อนเพื่อเปิดห้องแชท ส่งไฟล์ หรือกดปุ่มโทร/วิดีโอคอลคุยกันได้แบบเรียลไทม์
                       </p>
                     </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* SECTION: การรันบน Windows / Linux / macOS */}
+            {activeSection === 'platforms' && (
+              <div className="space-y-4 animate-fadeIn text-xs leading-relaxed">
+                <h3 className="font-bold text-sm text-gray-900 dark:text-gray-100 flex items-center gap-2">
+                  <Monitor className="w-4 h-4 text-line-green" />
+                  <span>วิธีเปิดใช้งานโปรแกรมสำเร็จรูปบนแต่ละระบบปฏิบัติการ</span>
+                </h3>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {/* Windows */}
+                  <div className="p-3.5 rounded-2xl bg-blue-50/60 dark:bg-blue-950/20 border border-blue-200/60 dark:border-blue-900/40 space-y-2">
+                    <div className="font-bold text-blue-700 dark:text-blue-300 flex items-center gap-1.5">
+                      <span className="text-base">🪟</span>
+                      <span>Windows 10 / 11</span>
+                    </div>
+                    <p className="text-[11px] text-gray-600 dark:text-gray-300">
+                      แตกไฟล์ <span className="font-semibold text-blue-600 dark:text-blue-400">CraftChat-Windows.zip</span> แล้วดับเบิลคลิกที่ <code className="bg-white/80 dark:bg-black/30 px-1 py-0.5 rounded text-[10px] font-mono">CraftChat.exe</code>
+                    </p>
+                    <p className="text-[10px] text-gray-500 dark:text-gray-400">
+                      ระบบจะเปิดหน้าต่างโปรแกรมแบบ Native App ทันทีผ่าน Microsoft Edge/Chrome Window
+                    </p>
+                  </div>
+
+                  {/* Linux */}
+                  <div className="p-3.5 rounded-2xl bg-amber-50/60 dark:bg-amber-950/20 border border-amber-200/60 dark:border-amber-900/40 space-y-2">
+                    <div className="font-bold text-amber-700 dark:text-amber-300 flex items-center gap-1.5">
+                      <span className="text-base">🐧</span>
+                      <span>Linux (Ubuntu / Debian / Fedora)</span>
+                    </div>
+                    <p className="text-[11px] text-gray-600 dark:text-gray-300">
+                      ดับเบิลคลิกไฟล์ <span className="font-semibold text-amber-600 dark:text-amber-400">CraftChat-x86_64.AppImage</span> หรือแตกไฟล์ <span className="font-semibold text-amber-600 dark:text-amber-400">CraftChat-Linux-Portable.tar.gz</span>
+                    </p>
+                    <p className="text-[10px] text-gray-500 dark:text-gray-400">
+                      มี FUSE Keep-Alive Engine หน้าเว็บและ P2P Daemon จะทำงานต่อเนื่องไม่ปิดตัว
+                    </p>
+                  </div>
+
+                  {/* macOS */}
+                  <div className="p-3.5 rounded-2xl bg-purple-50/60 dark:bg-purple-950/20 border border-purple-200/60 dark:border-purple-900/40 space-y-2">
+                    <div className="font-bold text-purple-700 dark:text-purple-300 flex items-center gap-1.5">
+                      <span className="text-base">🍏</span>
+                      <span>macOS (Silicon & Intel)</span>
+                    </div>
+                    <p className="text-[11px] text-gray-600 dark:text-gray-300">
+                      แตกไฟล์ <span className="font-semibold text-purple-600 dark:text-purple-400">CraftChat-macOS.zip</span> แล้วลาก <span className="font-semibold text-purple-600 dark:text-purple-400">CraftChat.app</span> ไปไว้ที่โฟลเดอร์ Applications
+                    </p>
+                    <p className="text-[10px] text-gray-500 dark:text-gray-400">
+                      ดับเบิลคลิกเปิดใช้งาน มีไอคอนและสตรีมมิ่งในตัว รองรับ M1/M2/M3/M4 และ Intel
+                    </p>
+                  </div>
+                </div>
+
+                <div className="p-3.5 rounded-xl bg-gray-50 dark:bg-gray-800/60 border border-gray-100 dark:border-gray-800">
+                  <span className="font-bold text-gray-800 dark:text-gray-200 block mb-1">
+                    💡 ข้อดีของการใช้งานแบบ Standalone Package:
+                  </span>
+                  <ul className="list-disc list-inside text-[11px] text-gray-500 dark:text-gray-400 space-y-1 pl-1">
+                    <li>ไม่ต้องต่ออินเทอร์เน็ตในการติดตั้งและใช้งาน (Air-Gapped 100%)</li>
+                    <li>มี GUI เต็มรูปแบบและเว็บเซิร์ฟเวอร์แบบฝังในตัว ไม่ต้องพิมพ์คำสั่งใน Terminal</li>
+                    <li>รองรับการส่งข้อความ ข้อมูลไฟล์ และโทรเสียงผ่าน LAN ข้ามระหว่าง Windows ↔ Linux ↔ Mac ได้อย่างไร้รอยต่อ</li>
+                  </ul>
+                </div>
+              </div>
+            )}
+
+            {/* SECTION: ธีม & การปรับแต่งสีสัน */}
+            {activeSection === 'themes' && (
+              <div className="space-y-4 animate-fadeIn text-xs leading-relaxed">
+                <h3 className="font-bold text-sm text-gray-900 dark:text-gray-100 flex items-center gap-2">
+                  <Palette className="w-4 h-4 text-line-green" />
+                  <span>การเปลี่ยนธีมและการปรับแต่งสีสันตามใจชอบ</span>
+                </h3>
+
+                <div className="p-3.5 rounded-2xl bg-gradient-to-r from-red-500/10 via-amber-500/15 to-neutral-900/10 dark:from-red-950/40 dark:via-amber-950/30 dark:to-black/40 border border-amber-300/40 dark:border-amber-700/40 space-y-2">
+                  <div className="flex items-center gap-2">
+                    <span className="w-3 h-3 rounded-full bg-red-600 ring-2 ring-amber-400 shadow-sm"></span>
+                    <span className="font-bold text-red-700 dark:text-amber-400 text-xs">
+                      ธีมหลัก: ขาว แดง ทอง และดำ (Royal Red & Gold)
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-gray-600 dark:text-gray-300">
+                    CraftChat ใช้ธีมหลักระดับพรีเมียมที่ผสมผสานสีขาวสะอาดตา, แดงสดใสสไตล์โมเดิร์น, ทองประกายหรูหรา และสีดำสนิท ซึ่งช่วยเพิ่มความโดดเด่น สบายตา และมีสไตล์ที่ไม่ซ้ำใคร
+                  </p>
+                </div>
+
+                <div className="space-y-2.5">
+                  <div className="p-3 rounded-xl bg-gray-50 dark:bg-gray-800/60 border border-gray-100 dark:border-gray-800">
+                    <h4 className="font-bold text-gray-800 dark:text-gray-200 mb-1">
+                      🎨 วิธีเปลี่ยนธีมของโปรแกรม:
+                    </h4>
+                    <ol className="list-decimal list-inside text-[11px] text-gray-500 dark:text-gray-400 space-y-1 pl-1">
+                      <li>คลิกที่ไอคอน <span className="font-bold text-line-green">การตั้งค่า (Settings ⚙️)</span> หรือไอคอนจานสีที่แถบซ้ายล่าง</li>
+                      <li>ในหัวข้อ <span className="font-semibold text-gray-700 dark:text-gray-300">"ธีมสีของโปรแกรม"</span> จะมีตัวเลือกให้เลือกมากมาย เช่น:
+                        <ul className="list-disc list-inside pl-4 mt-1 space-y-0.5">
+                          <li><strong>Royal Red & Gold:</strong> ขาว-แดง-ทอง-ดำ (ธีมหลัก)</li>
+                          <li><strong>LINE Classic:</strong> เขียว-ขาว สไตล์ LINE ดั้งเดิม</li>
+                          <li><strong>Sapphire Ocean:</strong> โทนน้ำเงินคราม ทันสมัย</li>
+                          <li><strong>Cyberpunk Neon:</strong> โทนม่วง-ชมพู นีออน ดุดัน</li>
+                        </ul>
+                      </li>
+                      <li>คลิกเลือกธีมที่ต้องการ โปรแกรมจะเปลี่ยนสีทันทีโดยไม่ต้องรีสตาร์ท</li>
+                    </ol>
+                  </div>
+
+                  <div className="p-3 rounded-xl bg-gray-50 dark:bg-gray-800/60 border border-gray-100 dark:border-gray-800">
+                    <h4 className="font-bold text-gray-800 dark:text-gray-200 mb-1">
+                      🌙 โหมดมืดและสว่าง (Dark / Light Mode):
+                    </h4>
+                    <p className="text-[11px] text-gray-500 dark:text-gray-400">
+                      คุณสามารถคลิกปุ่มไอคอนพระจันทร์/พระอาทิตย์ ที่แถบเมนูด้านซ้ายเพื่อสลับระหว่างโหมดมืด (ประหยัดสายตาในเวลากลางคืน) และโหมดสว่างได้ทันที ทุกธีมจะปรับเฉดสีให้เข้ากับโหมดมืดอย่างลงตัว
+                    </p>
                   </div>
                 </div>
               </div>

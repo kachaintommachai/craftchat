@@ -78,11 +78,13 @@ fn find_dist_dir() -> PathBuf {
         }
     }
 
-    // 2. Check relative to current executable
+    // 2. Check relative to current executable (Windows, macOS, Linux)
     if let Ok(exe) = std::env::current_exe() {
         if let Some(parent) = exe.parent() {
             let candidates = [
                 parent.join("dist"),
+                parent.join("resources/dist"),
+                parent.join("../Resources/dist"),
                 parent.join("../share/craft-chat/dist"),
                 parent.join("../../dist"),
                 parent.join("../../../dist"),
@@ -98,6 +100,7 @@ fn find_dist_dir() -> PathBuf {
     // 3. Check current working directory
     let cwd_candidates = [
         PathBuf::from("dist"),
+        PathBuf::from("resources/dist"),
         PathBuf::from("usr/share/craft-chat/dist"),
     ];
     for c in cwd_candidates {
@@ -110,24 +113,56 @@ fn find_dist_dir() -> PathBuf {
 }
 
 fn launch_browser(url: &str) {
-    let browsers = [
-        ("google-chrome", vec![format!("--app={}", url), "--class=CraftChat".to_string()]),
-        ("google-chrome-stable", vec![format!("--app={}", url), "--class=CraftChat".to_string()]),
-        ("brave-browser", vec![format!("--app={}", url), "--class=CraftChat".to_string()]),
-        ("chromium", vec![format!("--app={}", url), "--class=CraftChat".to_string()]),
-        ("chromium-browser", vec![format!("--app={}", url), "--class=CraftChat".to_string()]),
-        ("firefox", vec!["-new-window".to_string(), url.to_string()]),
-        ("xdg-open", vec![url.to_string()]),
-    ];
+    #[cfg(windows)]
+    {
+        let win_browsers = [
+            ("msedge", vec![format!("--app={}", url)]),
+            ("chrome", vec![format!("--app={}", url)]),
+            ("brave", vec![format!("--app={}", url)]),
+        ];
+        for (bin, args) in win_browsers {
+            if Command::new(bin).args(&args).spawn().is_ok() {
+                println!("✔ Launched CraftChat GUI window via {}", bin);
+                return;
+            }
+        }
+        let _ = Command::new("cmd").args(["/c", "start", url]).spawn();
+    }
 
-    for (bin, args) in browsers {
-        if Command::new(bin).args(&args).spawn().is_ok() {
-            println!("✔ Launched CraftChat window via {}", bin);
-            return;
+    #[cfg(target_os = "macos")]
+    {
+        let mac_browsers = [
+            ("open", vec!["-a".to_string(), "Google Chrome".to_string(), "--args".to_string(), format!("--app={}", url)]),
+            ("open", vec!["-a".to_string(), "Brave Browser".to_string(), "--args".to_string(), format!("--app={}", url)]),
+            ("open", vec![url.to_string()]),
+        ];
+        for (bin, args) in mac_browsers {
+            if Command::new(bin).args(&args).spawn().is_ok() {
+                println!("✔ Launched CraftChat window on macOS via {}", bin);
+                return;
+            }
         }
     }
 
-    eprintln!("⚠️ Note: Could not auto-open browser. Please visit: {}", url);
+    #[cfg(not(any(windows, target_os = "macos")))]
+    {
+        let browsers = [
+            ("google-chrome", vec![format!("--app={}", url), "--class=CraftChat".to_string()]),
+            ("google-chrome-stable", vec![format!("--app={}", url), "--class=CraftChat".to_string()]),
+            ("brave-browser", vec![format!("--app={}", url), "--class=CraftChat".to_string()]),
+            ("chromium", vec![format!("--app={}", url), "--class=CraftChat".to_string()]),
+            ("chromium-browser", vec![format!("--app={}", url), "--class=CraftChat".to_string()]),
+            ("firefox", vec!["-new-window".to_string(), url.to_string()]),
+            ("xdg-open", vec![url.to_string()]),
+        ];
+
+        for (bin, args) in browsers {
+            if Command::new(bin).args(&args).spawn().is_ok() {
+                println!("✔ Launched CraftChat window via {}", bin);
+                return;
+            }
+        }
+    }
 }
 
 fn main() {
@@ -175,7 +210,7 @@ fn main() {
     // Launch desktop app window in browser
     launch_browser(&url);
 
-    // Keep server alive so AppImage mount and web server do not exit!
+    // Keep server alive so AppImage mount, Windows process and web server do not exit!
     println!("🚀 CraftChat is running! Keep this process active while using the app.");
     loop {
         thread::sleep(Duration::from_secs(3600));

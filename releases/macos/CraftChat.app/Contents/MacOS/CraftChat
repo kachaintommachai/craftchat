@@ -2,15 +2,35 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 APP_DIR="$( cd "$DIR/../.." && pwd )"
 RESOURCES_DIR="$APP_DIR/Contents/Resources"
+PORT=4243
 
-# Display desktop notification on macOS
-osascript -e 'display notification "เปิดใช้งาน CraftChat สำเร็จ" with title "CraftChat"' 2>/dev/null || true
+# Display notification
+osascript -e 'display notification "เปิดใช้งาน CraftChat สำเร็จ กำลังเริ่มระบบ GUI..." with title "CraftChat"' 2>/dev/null || true
 
-# Open CraftChat Web App in default browser or webview
-if [ -d "$RESOURCES_DIR/dist" ]; then
-    open "$RESOURCES_DIR/dist/index.html"
-elif [ -f "$RESOURCES_DIR/index.html" ]; then
-    open "$RESOURCES_DIR/index.html"
+# Check if port is already listening, if not start http server
+if ! nc -z 127.0.0.1 $PORT 2>/dev/null; then
+    if command -v python3 >/dev/null 2>&1; then
+        (cd "$RESOURCES_DIR/dist" && python3 -m http.server $PORT --bind 127.0.0.1 >/dev/null 2>&1) &
+        SERVER_PID=$!
+    elif command -v python >/dev/null 2>&1; then
+        (cd "$RESOURCES_DIR/dist" && python -m SimpleHTTPServer $PORT >/dev/null 2>&1) &
+        SERVER_PID=$!
+    fi
 fi
 
-exit 0
+sleep 0.8
+
+# Open in standalone app window if Chrome/Edge/Brave is installed, otherwise default browser
+if [ -d "/Applications/Google Chrome.app" ]; then
+    open -na "Google Chrome" --args --app="http://127.0.0.1:$PORT"
+elif [ -d "/Applications/Microsoft Edge.app" ]; then
+    open -na "Microsoft Edge" --args --app="http://127.0.0.1:$PORT"
+elif [ -d "/Applications/Brave Browser.app" ]; then
+    open -na "Brave Browser" --args --app="http://127.0.0.1:$PORT"
+else
+    open "http://127.0.0.1:$PORT"
+fi
+
+if [ -n "$SERVER_PID" ]; then
+    wait $SERVER_PID
+fi

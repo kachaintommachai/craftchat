@@ -4,10 +4,24 @@
 
 ---
 
+## 📦 0. ไฟล์โปรแกรมสำเร็จรูปพร้อมใช้งานทันที (Pre-built Binaries)
+
+หากไม่ต้องการติดตั้ง Rust/Node.js บนเครื่องปลายทาง โปรเจกต์มีไฟล์ที่คอมไพล์พร้อมเปิด GUI ให้ทันทีในโฟลเดอร์ [`releases/`](releases/):
+- **Windows:** [`releases/windows/CraftChat-Windows.zip`](releases/windows/CraftChat-Windows.zip) (แตกไฟล์ ดับเบิลคลิก `CraftChat.exe`)
+- **Linux:** [`releases/linux/CraftChat-x86_64.AppImage`](releases/linux/CraftChat-x86_64.AppImage) และ [`releases/linux/CraftChat-Linux-Portable.tar.gz`](releases/linux/CraftChat-Linux-Portable.tar.gz)
+- **macOS:** [`releases/macos/CraftChat-macOS.zip`](releases/macos/CraftChat-macOS.zip) (แตกไฟล์ ได้ `CraftChat.app`)
+
+---
+
 ## 📁 โครงสร้างไฟล์สำหรับแต่ละ OS ที่เตรียมไว้ในโปรเจกต์
 
 ```text
 craft-chat/
+├── releases/                        # ไฟล์ไบนารีและแอพสำเร็จรูปสำหรับทุก OS
+│   ├── README.md                    # คู่มือใช้งานสำหรับผู้ใช้ทั่วไป
+│   ├── windows/CraftChat-Windows.zip
+│   ├── linux/CraftChat-x86_64.AppImage & CraftChat-Linux-Portable.tar.gz
+│   └── macos/CraftChat-macOS.zip
 ├── ci/
 │   ├── README.md
 │   └── workflows/
