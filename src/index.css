@@ -3,7 +3,99 @@
 @tailwind utilities;
 
 @layer base {
-  /* Custom modern thin scrollbar like LINE PC */
+  /* Default Theme: Royal Red & Gold (ขาว แดง ทอง ดำ) */
+  :root,
+  [data-theme="royal-red-gold"] {
+    --theme-accent: #DC2626;         /* Royal Red */
+    --theme-accent-hover: #B91C1C;
+    --theme-accent-dark: #991B1B;
+    --theme-gold: #D4AF37;           /* Imperial Gold */
+    --theme-gold-hover: #B89628;
+    --theme-gold-light: #FEF08A;
+    --theme-sidebar: #0F1115;        /* Deep Obsidian Black */
+    --theme-sidebar-hover: #1A1D24;
+    --theme-sidebar-active: #252A34;
+    --theme-chatbg: #F8FAFC;         /* Crisp White / Clean Slate */
+    --theme-chatbg-dark: #0A0C0F;    /* Rich Pure Black */
+    --theme-bubble: #FFFFFF;         /* White Bubble */
+    --theme-bubble-me: #DC2626;      /* Royal Red Bubble */
+    --theme-bubble-dark: #1E222A;
+    --theme-bubble-me-dark: #991B1B;
+  }
+
+  [data-theme="imperial-gold"] {
+    --theme-accent: #D4AF37;         /* Imperial Gold */
+    --theme-accent-hover: #B89628;
+    --theme-accent-dark: #997A1E;
+    --theme-gold: #F59E0B;
+    --theme-gold-hover: #D97706;
+    --theme-gold-light: #FDE68A;
+    --theme-sidebar: #0A0A0C;        /* Jet Black */
+    --theme-sidebar-hover: #18181C;
+    --theme-sidebar-active: #24242A;
+    --theme-chatbg: #FDFBF7;         /* Ivory White */
+    --theme-chatbg-dark: #060608;
+    --theme-bubble: #FFFFFF;
+    --theme-bubble-me: #D4AF37;
+    --theme-bubble-dark: #18181C;
+    --theme-bubble-me-dark: #A16207;
+  }
+
+  [data-theme="crimson-dark"] {
+    --theme-accent: #E11D48;         /* Crimson Rose */
+    --theme-accent-hover: #BE123C;
+    --theme-accent-dark: #9F1239;
+    --theme-gold: #F59E0B;
+    --theme-gold-hover: #D97706;
+    --theme-gold-light: #FDE68A;
+    --theme-sidebar: #140C0E;        /* Crimson Black */
+    --theme-sidebar-hover: #221417;
+    --theme-sidebar-active: #321D22;
+    --theme-chatbg: #FFF1F2;         /* Rose White */
+    --theme-chatbg-dark: #0D0608;
+    --theme-bubble: #FFFFFF;
+    --theme-bubble-me: #E11D48;
+    --theme-bubble-dark: #1F1014;
+    --theme-bubble-me-dark: #9F1239;
+  }
+
+  [data-theme="midnight-gold"] {
+    --theme-accent: #EAB308;         /* Bright Amber Gold */
+    --theme-accent-hover: #CA8A04;
+    --theme-accent-dark: #A16207;
+    --theme-gold: #FACC15;
+    --theme-gold-hover: #EAB308;
+    --theme-gold-light: #FEF08A;
+    --theme-sidebar: #09090B;        /* Obsidian Black */
+    --theme-sidebar-hover: #18181B;
+    --theme-sidebar-active: #27272A;
+    --theme-chatbg: #FAFAFA;
+    --theme-chatbg-dark: #09090B;
+    --theme-bubble: #FFFFFF;
+    --theme-bubble-me: #CA8A04;
+    --theme-bubble-dark: #18181B;
+    --theme-bubble-me-dark: #854D0E;
+  }
+
+  [data-theme="classic-green"] {
+    --theme-accent: #06C755;         /* LINE Green */
+    --theme-accent-hover: #05B24C;
+    --theme-accent-dark: #048C3C;
+    --theme-gold: #EAB308;
+    --theme-gold-hover: #CA8A04;
+    --theme-gold-light: #FEF08A;
+    --theme-sidebar: #1E232A;
+    --theme-sidebar-hover: #2B323C;
+    --theme-sidebar-active: #353D49;
+    --theme-chatbg: #ABC1D1;
+    --theme-chatbg-dark: #181B20;
+    --theme-bubble: #FFFFFF;
+    --theme-bubble-me: #9EEA6A;
+    --theme-bubble-dark: #2E333D;
+    --theme-bubble-me-dark: #057A36;
+  }
+
+  /* Custom modern thin scrollbar */
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -19,3 +111,4 @@
     background: rgba(150, 150, 150, 0.5);
   }
 }
+

@@ -1,5 +1,5 @@
 import React from 'react';
-import { MessageSquare, Users, Settings, Moon, Sun, ShieldCheck, Wifi, Smile, BookOpen } from 'lucide-react';
+import { MessageSquare, Users, Settings, Moon, Sun, ShieldCheck, Wifi, Smile, BookOpen, Palette } from 'lucide-react';
 import { UserProfile } from '../types';
 import { Avatar } from './Avatar';
 
@@ -16,6 +16,7 @@ interface SidebarProps {
   onOpenStatusModal?: () => void;
   onOpenAvatarModal?: () => void;
   onOpenGuide?: () => void;
+  onOpenThemeModal?: () => void;
   isChatActive?: boolean;
 }
 
@@ -32,6 +33,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onOpenStatusModal,
   onOpenAvatarModal,
   onOpenGuide,
+  onOpenThemeModal,
   isChatActive = false,
 }) => {
   return (
@@ -143,6 +145,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
             title="คู่มือการใช้งาน (User Manual)"
           >
             <BookOpen className="w-5 h-5" />
+          </button>
+        )}
+
+        {/* Theme Palette Customizer button */}
+        {onOpenThemeModal && (
+          <button
+            onClick={onOpenThemeModal}
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-gray-400 hover:text-line-gold hover:bg-line-sidebar-hover transition-colors"
+            title="ปรับแต่งธีมและสีสัน (Themes)"
+          >
+            <Palette className="w-5 h-5 text-line-gold" />
           </button>
         )}
 

@@ -10,7 +10,8 @@ import { StatusModal } from './components/StatusModal';
 import { AvatarModal } from './components/AvatarModal';
 import { WallpaperModal } from './components/WallpaperModal';
 import { UserGuideModal } from './components/UserGuideModal';
-import { Peer, GroupChat, Message, UserProfile } from './types';
+import { ThemeModal } from './components/ThemeModal';
+import { Peer, GroupChat, Message, UserProfile, ThemeId } from './types';
 
 // Safely invoke Tauri commands if available, else fallback to mock for browser preview
 const isTauri = () => typeof window !== 'undefined' && '__TAURI_INTERNALS__' in window;
@@ -244,7 +245,28 @@ export const App: React.FC = () => {
   const [avatarModalOpen, setAvatarModalOpen] = useState(false);
   const [wallpaperModalOpen, setWallpaperModalOpen] = useState(false);
   const [guideOpen, setGuideOpen] = useState(false);
+  const [themeModalOpen, setThemeModalOpen] = useState(false);
+  const [themeId, setThemeId] = useState<ThemeId>(() => {
+    return (localStorage.getItem('craft_chat_theme') as ThemeId) || 'royal-red-gold';
+  });
   const [activeCallSession, setActiveCallSession] = useState<CallSession | null>(null);
+
+  // Apply Theme Custom Attribute to Document Root
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', themeId);
+    localStorage.setItem('craft_chat_theme', themeId);
+  }, [themeId]);
+
+  // Toggle Dark Mode Class on Root
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [darkMode]);
 
   const handleSaveAvatar = async (avatarUrl: string) => {
     try {
@@ -280,17 +302,6 @@ export const App: React.FC = () => {
         : null
     );
   };
-
-  // Toggle Dark Mode Class on Root
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
-  }, [darkMode]);
 
   // Load Initial Profile, Peers, and Groups
   useEffect(() => {
@@ -748,6 +759,7 @@ export const App: React.FC = () => {
         onOpenStatusModal={() => setStatusModalOpen(true)}
         onOpenAvatarModal={() => setAvatarModalOpen(true)}
         onOpenGuide={() => setGuideOpen(true)}
+        onOpenThemeModal={() => setThemeModalOpen(true)}
         isChatActive={!!selectedPeer || !!selectedGroup}
       />
 
@@ -872,12 +884,27 @@ export const App: React.FC = () => {
           setSettingsOpen(false);
           setGuideOpen(true);
         }}
+        onOpenThemeModal={() => {
+          setSettingsOpen(false);
+          setThemeModalOpen(true);
+        }}
+        currentTheme={themeId}
       />
 
       {/* In-App Interactive User Guide & Manual Modal */}
       <UserGuideModal
         isOpen={guideOpen}
         onClose={() => setGuideOpen(false)}
+      />
+
+      {/* Interactive Theme Customizer Modal (ขาว-แดง-ทอง-ดำ และชุดสี) */}
+      <ThemeModal
+        isOpen={themeModalOpen}
+        onClose={() => setThemeModalOpen(false)}
+        currentTheme={themeId}
+        onSelectTheme={(t) => setThemeId(t)}
+        darkMode={darkMode}
+        onToggleDarkMode={() => setDarkMode(!darkMode)}
       />
     </div>
   );

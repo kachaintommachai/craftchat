@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { X, Shield, Folder, User, Network, Copy, Check, Smile, Camera, BookOpen } from 'lucide-react';
-import { UserProfile } from '../types';
+import { X, Shield, Folder, User, Network, Copy, Check, Smile, Camera, BookOpen, Palette } from 'lucide-react';
+import { UserProfile, ThemeId } from '../types';
 import { getStickerById } from './Stickers';
 import { Avatar } from './Avatar';
 
@@ -12,6 +12,8 @@ interface SettingsModalProps {
   onOpenStatusModal?: () => void;
   onOpenAvatarModal?: () => void;
   onOpenGuide?: () => void;
+  onOpenThemeModal?: () => void;
+  currentTheme?: ThemeId;
 }
 
 export const SettingsModal: React.FC<SettingsModalProps> = ({
@@ -22,6 +24,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   onOpenStatusModal,
   onOpenAvatarModal,
   onOpenGuide,
+  onOpenThemeModal,
+  currentTheme = 'royal-red-gold',
 }) => {
   const [displayName, setDisplayName] = useState(profile?.display_name || '');
   const [port, setPort] = useState(profile?.port || 4242);
@@ -129,6 +133,36 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               </button>
             )}
           </div>
+
+          {/* Theme & Palette Selection Card */}
+          {onOpenThemeModal && (
+            <div className="p-3 bg-gradient-to-r from-red-50/70 via-amber-50/50 to-orange-50/40 dark:from-red-950/30 dark:via-amber-950/20 dark:to-orange-950/20 rounded-xl border border-red-200/60 dark:border-red-900/60 flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-lg bg-red-100 dark:bg-red-900/60 text-red-600 dark:text-red-400 flex items-center justify-center shadow-xs">
+                  <Palette className="w-4 h-4" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-xs font-bold text-gray-800 dark:text-gray-100 block">ธีมและสีสันโปรแกรม</span>
+                    <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 font-bold">
+                      {currentTheme === 'royal-red-gold' ? 'ขาว แดง ทอง ดำ' : currentTheme}
+                    </span>
+                  </div>
+                  <span className="text-[10px] text-gray-500 dark:text-gray-400">เลือกชุดสี ขาว-แดง-ทอง-ดำ, ดำ-ทอง, คลาสสิก</span>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  onClose();
+                  onOpenThemeModal();
+                }}
+                className="px-3 py-1.5 rounded-lg bg-line-green hover:bg-line-green-hover text-white text-xs font-semibold shadow-xs transition-all active:scale-95"
+              >
+                เปลี่ยนธีม
+              </button>
+            </div>
+          )}
 
           {/* User Guide & Manual Card */}
           {onOpenGuide && (

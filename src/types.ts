@@ -94,3 +94,21 @@ export interface FileTransferProgress {
   is_done: boolean;
   error?: string;
 }
+
+export type ThemeId =
+  | 'royal-red-gold'
+  | 'imperial-gold'
+  | 'crimson-dark'
+  | 'midnight-gold'
+  | 'classic-green';
+
+export interface ThemePreset {
+  id: ThemeId;
+  name: string;
+  description: string;
+  primaryColor: string;
+  goldColor: string;
+  bgColor: string;
+  sidebarColor: string;
+}
+

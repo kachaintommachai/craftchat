@@ -9,18 +9,21 @@ export default {
     extend: {
       colors: {
         line: {
-          green: "#06C755",
-          "green-hover": "#05B24C",
-          "green-dark": "#048C3C",
-          sidebar: "#1E232A",
-          "sidebar-hover": "#2B323C",
-          "sidebar-active": "#353D49",
-          chatbg: "#ABC1D1",
-          "chatbg-dark": "#181B20",
-          bubble: "#FFFFFF",
-          "bubble-me": "#9EEA6A",
-          "bubble-dark": "#2E333D",
-          "bubble-me-dark": "#057A36",
+          green: "var(--theme-accent, #DC2626)",
+          "green-hover": "var(--theme-accent-hover, #B91C1C)",
+          "green-dark": "var(--theme-accent-dark, #991B1B)",
+          sidebar: "var(--theme-sidebar, #0F1115)",
+          "sidebar-hover": "var(--theme-sidebar-hover, #1E232B)",
+          "sidebar-active": "var(--theme-sidebar-active, #2A303C)",
+          chatbg: "var(--theme-chatbg, #F8FAFC)",
+          "chatbg-dark": "var(--theme-chatbg-dark, #0A0C0F)",
+          bubble: "var(--theme-bubble, #FFFFFF)",
+          "bubble-me": "var(--theme-bubble-me, #DC2626)",
+          "bubble-dark": "var(--theme-bubble-dark, #1E222A)",
+          "bubble-me-dark": "var(--theme-bubble-me-dark, #B91C1C)",
+          gold: "var(--theme-gold, #D4AF37)",
+          "gold-hover": "var(--theme-gold-hover, #B89628)",
+          "gold-light": "var(--theme-gold-light, #FEF08A)",
         }
       }
     },
