@@ -7,8 +7,8 @@
 ## 🪟 1. Windows (`.zip` / `.exe`)
 
 ### 📦 ไฟล์ติดตั้ง:
-- **แพ็กเกจสมบูรณ์ (แนะนำ):** [`releases/windows/CraftChat-Windows.zip`](windows/CraftChat-Windows.zip) (ขนาด ~11 MB)
-- **ตัว Launcher เดี่ยว:** [`releases/windows/CraftChat.exe`](windows/CraftChat.exe) (ขนาด ~280 KB)
+- **แพ็กเกจสมบูรณ์ (แนะนำ):** [`releases/windows/CraftChat-Windows.zip`](windows/CraftChat-Windows.zip) (ขนาด ~14 MB)
+- **ตัว Launcher เดี่ยว (Embedded UI):** [`releases/windows/CraftChat.exe`](windows/CraftChat.exe) (ขนาด ~3.2 MB)
 
 ### 💻 วิธีใช้งาน:
 1. แตกไฟล์ `CraftChat-Windows.zip` (คลิกขวา -> Extract All...) จะได้โฟลเดอร์ `CraftChat-Windows`
@@ -21,8 +21,8 @@
 ## 🐧 2. Linux (`.AppImage` / `.tar.gz`)
 
 ### 📦 ไฟล์ติดตั้ง:
-- **Standalone AppImage (แนะนำ):** [`releases/linux/CraftChat-x86_64.AppImage`](linux/CraftChat-x86_64.AppImage) (ขนาด ~4.9 MB)
-- **Portable Tarball:** [`releases/linux/CraftChat-Linux-Portable.tar.gz`](linux/CraftChat-Linux-Portable.tar.gz) (ขนาด ~5.6 MB)
+- **Standalone AppImage (แนะนำ):** [`releases/linux/CraftChat-x86_64.AppImage`](linux/CraftChat-x86_64.AppImage) (ขนาด ~7.4 MB, ฝัง UI ภายในตัว 100%)
+- **Portable Tarball:** [`releases/linux/CraftChat-Linux-Portable.tar.gz`](linux/CraftChat-Linux-Portable.tar.gz) (ขนาด ~8.1 MB)
 
 ### 💻 วิธีใช้งาน:
 

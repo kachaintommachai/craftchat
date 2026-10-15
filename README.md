@@ -10,10 +10,10 @@
 
 | ระบบปฏิบัติการ | แพ็กเกจ / ชนิดไฟล์ | ขนาด | ลิงก์ดาวน์โหลด | วิธีใช้งาน |
 | :--- | :--- | :---: | :--- | :--- |
-| 🪟 **Windows** | **Standalone GUI (.zip)** *(แนะนำ)* | 11 MB | [⬇️ ดาวน์โหลด CraftChat-Windows.zip](https://github.com/kachaintommachai/craftchat/raw/main/releases/windows/CraftChat-Windows.zip) | แตกไฟล์ ดับเบิลคลิก `CraftChat.exe` เปิดหน้าต่างโปรแกรมทันที |
-| 🪟 **Windows** | Portable Launcher (`.exe`) | 280 KB | [⬇️ ดาวน์โหลด CraftChat.exe](https://github.com/kachaintommachai/craftchat/raw/main/releases/windows/CraftChat.exe) | ไบนารี Launcher เปิดโปรแกรมแบบรวดเร็ว |
-| 🐧 **Linux** | **Standalone AppImage** *(แนะนำ)* | 4.9 MB | [⬇️ ดาวน์โหลด CraftChat-x86_64.AppImage](https://github.com/kachaintommachai/craftchat/raw/main/releases/linux/CraftChat-x86_64.AppImage) | ให้สิทธิ์ `chmod +x` แล้วดับเบิลคลิกเปิดใช้งานได้ทันที |
-| 🐧 **Linux** | Portable Archive (`.tar.gz`) | 5.6 MB | [⬇️ ดาวน์โหลด CraftChat-Linux-Portable.tar.gz](https://github.com/kachaintommachai/craftchat/raw/main/releases/linux/CraftChat-Linux-Portable.tar.gz) | แตกไฟล์ ดับเบิลคลิก `craftchat.sh` (สำหรับเครื่องที่ไม่มี FUSE) |
+| 🪟 **Windows** | **Standalone GUI (.zip)** *(แนะนำ)* | 14 MB | [⬇️ ดาวน์โหลด CraftChat-Windows.zip](https://github.com/kachaintommachai/craftchat/raw/main/releases/windows/CraftChat-Windows.zip) | แตกไฟล์ ดับเบิลคลิก `CraftChat.exe` เปิดหน้าต่างโปรแกรมทันที |
+| 🪟 **Windows** | Portable Single Binary (`.exe`) | 3.2 MB | [⬇️ ดาวน์โหลด CraftChat.exe](https://github.com/kachaintommachai/craftchat/raw/main/releases/windows/CraftChat.exe) | ไบนารีเดียวจบ ฝัง UI ในตัว เปิดได้ทันที |
+| 🐧 **Linux** | **Standalone AppImage** *(แนะนำ)* | 7.4 MB | [⬇️ ดาวน์โหลด CraftChat-x86_64.AppImage](https://github.com/kachaintommachai/craftchat/raw/main/releases/linux/CraftChat-x86_64.AppImage) | ให้สิทธิ์ `chmod +x` แล้วดับเบิลคลิกเปิดใช้งานได้ทันที (ฝัง UI ในตัว) |
+| 🐧 **Linux** | Portable Archive (`.tar.gz`) | 8.1 MB | [⬇️ ดาวน์โหลด CraftChat-Linux-Portable.tar.gz](https://github.com/kachaintommachai/craftchat/raw/main/releases/linux/CraftChat-Linux-Portable.tar.gz) | แตกไฟล์ ดับเบิลคลิก `craftchat.sh` (สำหรับเครื่องที่ไม่มี FUSE) |
 | 🍏 **macOS** | **Application Bundle (.zip)** | 5.1 MB | [⬇️ ดาวน์โหลด CraftChat-macOS.zip](https://github.com/kachaintommachai/craftchat/raw/main/releases/macos/CraftChat-macOS.zip) | แตกไฟล์ ลาก `CraftChat.app` เข้า Applications เปิดได้ทันที |
 
 > 📁 **คลังไฟล์ติดตั้งและแพ็กเกจทั้งหมดบน GitHub:** [https://github.com/kachaintommachai/craftchat/tree/main/releases](https://github.com/kachaintommachai/craftchat/tree/main/releases)  

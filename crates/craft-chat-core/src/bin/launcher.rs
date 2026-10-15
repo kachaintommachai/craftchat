@@ -1,13 +1,19 @@
-use std::fs;
+use std::borrow::Cow;
 use std::io::{Read, Write};
 use std::net::{TcpListener, TcpStream};
-use std::path::{Path, PathBuf};
+use std::path::Path;
 use std::process::Command;
 use std::thread;
 use std::time::Duration;
+use rust_embed::RustEmbed;
 
-fn get_mime(path: &Path) -> &'static str {
-    match path.extension().and_then(|s| s.to_str()).unwrap_or("") {
+#[derive(RustEmbed)]
+#[folder = "../../dist"]
+struct Asset;
+
+fn get_mime(path_str: &str) -> &'static str {
+    let p = Path::new(path_str);
+    match p.extension().and_then(|s| s.to_str()).unwrap_or("") {
         "html" => "text/html; charset=utf-8",
         "css" => "text/css; charset=utf-8",
         "js" | "mjs" => "application/javascript; charset=utf-8",
@@ -24,7 +30,7 @@ fn get_mime(path: &Path) -> &'static str {
     }
 }
 
-fn handle_client(mut stream: TcpStream, dist_dir: &Path) {
+fn handle_client(mut stream: TcpStream) {
     let mut buffer = [0u8; 4096];
     let n = match stream.read(&mut buffer) {
         Ok(n) if n > 0 => n,
@@ -39,38 +45,20 @@ fn handle_client(mut stream: TcpStream, dist_dir: &Path) {
     let clean_path = url_path.split('?').next().unwrap_or("/");
     let sub_path = clean_path.trim_start_matches('/');
 
-    let file_path = if sub_path.is_empty() {
-        dist_dir.join("index.html")
+    let target_path = if sub_path.is_empty() {
+        "index.html"
     } else {
-        dist_dir.join(sub_path)
+        sub_path
     };
 
-    let (status, content_type, body) = if file_path.exists() && file_path.is_file() {
-        let content = fs::read(&file_path).unwrap_or_default();
-        ("200 OK", get_mime(&file_path), content)
-    } else {
-        // Fallback to index.html for SPA client-side routing
-        let index_file = dist_dir.join("index.html");
-        if index_file.exists() {
-            let content = fs::read(&index_file).unwrap_or_default();
-            ("200 OK", "text/html; charset=utf-8", content)
+    let (status, content_type, body): (&str, &str, Cow<'static, [u8]>) =
+        if let Some(file) = Asset::get(target_path) {
+            ("200 OK", get_mime(target_path), file.data)
+        } else if let Some(fallback) = Asset::get("index.html") {
+            ("200 OK", "text/html; charset=utf-8", fallback.data)
         } else {
-            let html = format!(
-                r#"<!DOCTYPE html>
-<html>
-<head><meta charset="utf-8"><title>CraftChat Error</title></head>
-<body style="font-family:system-ui,sans-serif;text-align:center;padding:40px;background:#181B20;color:#fff;">
-  <h2 style="color:#ef4444;">⚠️ ไม่พบไฟล์หน้าต่างโปรแกรม (CraftChat UI files not found)</h2>
-  <p style="color:#9ca3af;">Dist directory: {:?}</p>
-  <p style="color:#9ca3af;">Checked index: {:?}</p>
-  <p style="color:#6b7280;font-size:12px;">กรุณาตรวจสอบว่ามีโฟลเดอร์ dist อยู่ข้างตัวโปรแกรม</p>
-</body>
-</html>"#,
-                dist_dir, index_file
-            );
-            ("404 Not Found", "text/html; charset=utf-8", html.into_bytes())
-        }
-    };
+            ("404 Not Found", "text/plain", Cow::Borrowed(b"Asset not found"))
+        };
 
     let response = format!(
         "HTTP/1.1 {}\r\nContent-Type: {}\r\nContent-Length: {}\r\nAccess-Control-Allow-Origin: *\r\nConnection: close\r\n\r\n",
@@ -80,75 +68,6 @@ fn handle_client(mut stream: TcpStream, dist_dir: &Path) {
     );
     let _ = stream.write_all(response.as_bytes());
     let _ = stream.write_all(&body);
-}
-
-fn find_dist_dir() -> PathBuf {
-    let mut checked = Vec::new();
-
-    // 1. Check AppImage runtime APPDIR environment variable
-    if let Ok(appdir) = std::env::var("APPDIR") {
-        let appdir_path = PathBuf::from(&appdir);
-        let candidates = [
-            appdir_path.join("dist"),
-            appdir_path.join("usr/bin/dist"),
-            appdir_path.join("usr/share/craftchat/dist"),
-            appdir_path.join("usr/share/craft-chat/dist"),
-            appdir_path.join("usr/share/craftchat"),
-            appdir_path.join("usr/share/craft-chat"),
-        ];
-        for c in candidates {
-            if c.exists() && c.join("index.html").exists() {
-                println!("✔ Found UI dist via APPDIR ({:?}): {:?}", appdir, c);
-                return c;
-            }
-            checked.push(c);
-        }
-    }
-
-    // 2. Check relative to current executable (Windows, macOS, Linux)
-    if let Ok(exe) = std::env::current_exe() {
-        if let Some(parent) = exe.parent() {
-            let candidates = [
-                parent.join("dist"),
-                parent.join("../dist"),
-                parent.join("../../dist"),
-                parent.join("../../../dist"),
-                parent.join("resources/dist"),
-                parent.join("../Resources/dist"),
-                parent.join("../share/craftchat/dist"),
-                parent.join("../share/craft-chat/dist"),
-                parent.join("../../share/craftchat/dist"),
-                parent.join("../../share/craft-chat/dist"),
-                parent.join("usr/share/craftchat/dist"),
-                parent.join("usr/share/craft-chat/dist"),
-            ];
-            for c in candidates {
-                if c.exists() && c.join("index.html").exists() {
-                    println!("✔ Found UI dist relative to exe ({:?}): {:?}", exe, c);
-                    return c;
-                }
-                checked.push(c);
-            }
-        }
-    }
-
-    // 3. Check current working directory
-    let cwd_candidates = [
-        PathBuf::from("dist"),
-        PathBuf::from("resources/dist"),
-        PathBuf::from("usr/share/craftchat/dist"),
-        PathBuf::from("usr/share/craft-chat/dist"),
-    ];
-    for c in cwd_candidates {
-        if c.exists() && c.join("index.html").exists() {
-            println!("✔ Found UI dist in CWD: {:?}", c);
-            return c;
-        }
-        checked.push(c);
-    }
-
-    eprintln!("⚠️ Warning: UI dist folder not found! Checked locations: {:?}", checked);
-    PathBuf::from("dist")
 }
 
 fn launch_browser(url: &str) {
@@ -206,50 +125,48 @@ fn launch_browser(url: &str) {
 
 fn main() {
     println!("=====================================================");
-    println!("  CraftChat GUI Server & Launcher (Multi-OS Desktop)  ");
+    println!("  CraftChat GUI Server & Launcher (Embedded Assets)  ");
     println!("=====================================================");
 
-    let dist_dir = find_dist_dir();
-    println!("📂 UI Assets directory: {:?}", dist_dir);
+    let port = 4243;
+    let url = format!("http://127.0.0.1:{}", port);
 
-    // Try binding default port 4243, fallback to port 0 if busy
-    let target_port = 4243;
-    let (listener, port) = match TcpListener::bind(format!("127.0.0.1:{}", target_port)) {
-        Ok(l) => (l, target_port),
-        Err(_) => {
-            // Check if CraftChat is already running on port 4243
-            if TcpStream::connect(format!("127.0.0.1:{}", target_port)).is_ok() {
-                println!("ℹ CraftChat server is already active on port {}.", target_port);
-                let url = format!("http://127.0.0.1:{}", target_port);
-                launch_browser(&url);
-                return;
-            }
-            let l = TcpListener::bind("127.0.0.1:0").expect("Failed to bind any local port");
-            let p = l.local_addr().unwrap().port();
-            (l, p)
+    // Try binding to port 4243
+    let listener = match TcpListener::bind(format!("127.0.0.1:{}", port)) {
+        Ok(l) => {
+            println!("✔ Built-in frontend assets: Embedded in binary (RAM)");
+            println!("🌐 CraftChat UI listening at: {}", url);
+            Some(l)
+        }
+        Err(e) => {
+            println!("ℹ Note: Port {} already in use or could not bind ({}), opening GUI directly...", port, e);
+            None
         }
     };
 
-    let url = format!("http://127.0.0.1:{}", port);
-    println!("🌐 CraftChat UI listening at: {}", url);
-
-    // Start background thread for HTTP static server
-    let dist_dir_clone = dist_dir.clone();
-    thread::spawn(move || {
-        for stream in listener.incoming() {
-            if let Ok(stream) = stream {
-                let dist = dist_dir_clone.clone();
-                thread::spawn(move || {
-                    handle_client(stream, &dist);
-                });
+    // If we bound the listener, spawn thread to handle requests
+    if let Some(listener) = listener {
+        thread::spawn(move || {
+            for stream in listener.incoming() {
+                match stream {
+                    Ok(stream) => {
+                        thread::spawn(move || {
+                            handle_client(stream);
+                        });
+                    }
+                    Err(e) => eprintln!("Connection error: {}", e),
+                }
             }
-        }
-    });
+        });
+    }
+
+    // Give server thread 200ms to spin up
+    thread::sleep(Duration::from_millis(200));
 
     // Launch desktop app window in browser
     launch_browser(&url);
 
-    // Keep server alive so AppImage mount, Windows process and web server do not exit!
+    // Keep server alive so embedded web server does not exit!
     println!("🚀 CraftChat is running! Keep this process active while using the app.");
     loop {
         thread::sleep(Duration::from_secs(3600));
