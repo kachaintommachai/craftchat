@@ -55,7 +55,20 @@ fn handle_client(mut stream: TcpStream, dist_dir: &Path) {
             let content = fs::read(&index_file).unwrap_or_default();
             ("200 OK", "text/html; charset=utf-8", content)
         } else {
-            ("404 Not Found", "text/plain", b"CraftChat UI files not found".to_vec())
+            let html = format!(
+                r#"<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>CraftChat Error</title></head>
+<body style="font-family:system-ui,sans-serif;text-align:center;padding:40px;background:#181B20;color:#fff;">
+  <h2 style="color:#ef4444;">⚠️ ไม่พบไฟล์หน้าต่างโปรแกรม (CraftChat UI files not found)</h2>
+  <p style="color:#9ca3af;">Dist directory: {:?}</p>
+  <p style="color:#9ca3af;">Checked index: {:?}</p>
+  <p style="color:#6b7280;font-size:12px;">กรุณาตรวจสอบว่ามีโฟลเดอร์ dist อยู่ข้างตัวโปรแกรม</p>
+</body>
+</html>"#,
+                dist_dir, index_file
+            );
+            ("404 Not Found", "text/html; charset=utf-8", html.into_bytes())
         }
     };
 
@@ -70,11 +83,25 @@ fn handle_client(mut stream: TcpStream, dist_dir: &Path) {
 }
 
 fn find_dist_dir() -> PathBuf {
+    let mut checked = Vec::new();
+
     // 1. Check AppImage runtime APPDIR environment variable
     if let Ok(appdir) = std::env::var("APPDIR") {
-        let p = PathBuf::from(appdir).join("usr/share/craft-chat/dist");
-        if p.exists() && p.join("index.html").exists() {
-            return p;
+        let appdir_path = PathBuf::from(&appdir);
+        let candidates = [
+            appdir_path.join("dist"),
+            appdir_path.join("usr/bin/dist"),
+            appdir_path.join("usr/share/craftchat/dist"),
+            appdir_path.join("usr/share/craft-chat/dist"),
+            appdir_path.join("usr/share/craftchat"),
+            appdir_path.join("usr/share/craft-chat"),
+        ];
+        for c in candidates {
+            if c.exists() && c.join("index.html").exists() {
+                println!("✔ Found UI dist via APPDIR ({:?}): {:?}", appdir, c);
+                return c;
+            }
+            checked.push(c);
         }
     }
 
@@ -83,16 +110,24 @@ fn find_dist_dir() -> PathBuf {
         if let Some(parent) = exe.parent() {
             let candidates = [
                 parent.join("dist"),
-                parent.join("resources/dist"),
-                parent.join("../Resources/dist"),
-                parent.join("../share/craft-chat/dist"),
+                parent.join("../dist"),
                 parent.join("../../dist"),
                 parent.join("../../../dist"),
+                parent.join("resources/dist"),
+                parent.join("../Resources/dist"),
+                parent.join("../share/craftchat/dist"),
+                parent.join("../share/craft-chat/dist"),
+                parent.join("../../share/craftchat/dist"),
+                parent.join("../../share/craft-chat/dist"),
+                parent.join("usr/share/craftchat/dist"),
+                parent.join("usr/share/craft-chat/dist"),
             ];
             for c in candidates {
                 if c.exists() && c.join("index.html").exists() {
+                    println!("✔ Found UI dist relative to exe ({:?}): {:?}", exe, c);
                     return c;
                 }
+                checked.push(c);
             }
         }
     }
@@ -101,14 +136,18 @@ fn find_dist_dir() -> PathBuf {
     let cwd_candidates = [
         PathBuf::from("dist"),
         PathBuf::from("resources/dist"),
+        PathBuf::from("usr/share/craftchat/dist"),
         PathBuf::from("usr/share/craft-chat/dist"),
     ];
     for c in cwd_candidates {
         if c.exists() && c.join("index.html").exists() {
+            println!("✔ Found UI dist in CWD: {:?}", c);
             return c;
         }
+        checked.push(c);
     }
 
+    eprintln!("⚠️ Warning: UI dist folder not found! Checked locations: {:?}", checked);
     PathBuf::from("dist")
 }
 
