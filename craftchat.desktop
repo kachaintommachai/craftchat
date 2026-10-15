@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=CraftChat
+Comment=Serverless LAN-only P2P Chat and File Transfer Application
+Exec=craft-chat
+Icon=craftchat
+Terminal=false
+Type=Application
+Categories=Network;InstantMessaging;Chat;
+Keywords=chat;lan;p2p;quic;bluetooth;line;craftchat;
+StartupWMClass=CraftChat

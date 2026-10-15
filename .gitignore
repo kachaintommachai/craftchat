@@ -7,6 +7,7 @@ Cargo.lock.backup
 node_modules/
 dist/
 dist-ssr/
+dist-bin/
 *.local
 
 # Tauri build artifacts

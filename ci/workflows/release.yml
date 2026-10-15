@@ -1,0 +1,82 @@
+name: Build and Release CraftChat (Multi-OS)
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'Release Tag (e.g. v0.1.0)'
+        required: false
+        default: 'v0.1.0'
+
+jobs:
+  build-and-release:
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: 'macos-latest'
+            args: '--target universal-apple-darwin'
+          - platform: 'ubuntu-22.04'
+            args: ''
+          - platform: 'windows-latest'
+            args: ''
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+
+      - name: Install Linux dependencies
+        if: matrix.platform == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf libssl-dev libdbus-1-dev
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Build CraftChat Frontend
+        run: npm run build
+
+      - name: Build Tauri Application
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: ${{ github.ref_name || github.event.inputs.release_tag }}
+          releaseName: 'CraftChat ${{ github.ref_name || github.event.inputs.release_tag }}'
+          releaseBody: |
+            ## 🚀 CraftChat Release ${{ github.ref_name || github.event.inputs.release_tag }}
+            
+            Serverless LAN-only P2P Chat and File Transfer Application.
+            
+            ### 📦 Packages Included:
+            - **Windows**: `.msi` (Installer) & `.exe` (Setup)
+            - **macOS**: `.dmg` (Universal for Apple Silicon & Intel)
+            - **Linux**: `.deb` (Debian/Ubuntu) & `.AppImage` (Universal Linux)
+            
+            ### ✨ Features:
+            - 0-RTT QUIC multiplexed stream file transfer
+            - Bluetooth Low Energy (BLE) offline proximity messaging
+            - LINE Official & Flaticon Stickers with smart suggestion
+            - Customizable Status, Avatars, and Wallpapers
+            - In-App Interactive User Guide
+          releaseDraft: false
+          prerelease: false
+          args: ${{ matrix.args }}
