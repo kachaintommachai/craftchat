@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+APP_DIR="$( cd "$DIR/../.." && pwd )"
+RESOURCES_DIR="$APP_DIR/Contents/Resources"
+
+# Display desktop notification on macOS
+osascript -e 'display notification "เปิดใช้งาน CraftChat สำเร็จ" with title "CraftChat"' 2>/dev/null || true
+
+# Open CraftChat Web App in default browser or webview
+if [ -d "$RESOURCES_DIR/dist" ]; then
+    open "$RESOURCES_DIR/dist/index.html"
+elif [ -f "$RESOURCES_DIR/index.html" ]; then
+    open "$RESOURCES_DIR/index.html"
+fi
+
+exit 0
