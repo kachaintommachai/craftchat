@@ -1,6 +1,6 @@
-# CraftChat (LINE PC - LAN P2P Edition)
+# CraftChat (LAN P2P Edition)
 
-โปรแกรมแชทและรับส่งไฟล์แบบ **Peer-to-Peer (P2P)** ภายในวงแลน (Local Area Network) ทำงานแบบ **Air-Gapped / Local-only 100%** ไม่มีเซิร์ฟเวอร์ส่วนกลาง ไม่ส่งข้อมูลออกสู่อินเทอร์เน็ต ถอดแบบหน้าตาและประสบการณ์ใช้งาน (UI/UX) มาจาก **LINE PC**
+โปรแกรมแชทและรับส่งไฟล์แบบ **Peer-to-Peer (P2P)** ภายในวงแลน (Local Area Network) ทำงานแบบ **Air-Gapped / Local-only 100%** ไม่มีเซิร์ฟเวอร์ส่วนกลาง ไม่ส่งข้อมูลออกสู่อินเทอร์เน็ต พร้อมหน้าตาและประสบการณ์ใช้งาน (UI/UX) ที่ทันสมัย สวยงาม คุ้นเคย ใช้งานง่าย
 
 ---
 
@@ -30,7 +30,7 @@
 2. **ระบบธีมสีพรีเมียม (Royal Red & Gold) พร้อม Theme Customizer**:
    - ธีมเริ่มต้นเน้น **สีขาว แดง ทอง และดำ** สวยงาม หรูหรา สบายตา และมีเอกลักษณ์
    - ผู้ใช้งานสามารถเลือกเปลี่ยนธีมเองได้ตามใจชอบ เช่น *LINE Classic Green*, *Sapphire Ocean*, *Cyberpunk Dark* พร้อมสลับโหมดมืด (Dark Mode) และโหมดสว่าง (Light Mode) ทันที
-3. **LINE PC Style Interface & Full Communication**:
+3. **Modern Desktop Chat Interface & Full Communication**:
    - หน้าต่างแชท Bubble เขียว/แดง/ขาว ตามธีมที่เลือก พร้อมระบบตอบกลับข้อความ (Reply)
    - **ระบบเดาสติกเกอร์อัตโนมัติ (Predictive Stickers)**: พิมพ์คำว่า "ขอบคุณ", "555", "รัก", "โกรธ", "ดีใจ" ระบบจะแนะนำสติกเกอร์ขึ้นมาให้กดส่งได้ทันที 1-Click
    - **คลังสติกเกอร์ LINE Official & Flaticon Message**: หมี Brown, โคนี่ Cony, แซลลี่ Sally, และไอคอนอารมณ์กว่า 100 แบบ
@@ -54,7 +54,7 @@
 craft-chat/
 ├── Cargo.toml                       # Root Cargo Workspace
 ├── package.json                     # Frontend React & Tauri Scripts
-├── tailwind.config.js               # LINE PC Theme Palette & Dark Mode
+├── tailwind.config.js               # Theme Palette & Dark Mode
 ├── vite.config.ts                   # Vite Bundler Configuration
 │
 ├── crates/                          # Rust Backend Core Engine
@@ -85,7 +85,7 @@ craft-chat/
     ├── index.css
     ├── types.ts                     # TypeScript Types (Messages, Peers, Profile)
     └── components/
-        ├── Sidebar.tsx              # เมนูซ้ายสุดสไตล์ LINE PC
+        ├── Sidebar.tsx              # เมนูซ้ายสุด (Desktop Sidebar)
         ├── PeerList.tsx             # รายชื่ออุปกรณ์ในวง LAN
         ├── ChatWindow.tsx           # หน้าต่างแชท, Bubble, Reply & Attachments
         └── SettingsModal.tsx        # หน้าต่างตั้งค่า Display Name & Network Port
@@ -118,7 +118,7 @@ cargo run --bin daemon
 npm install
 npm run dev
 ```
-เปิดบราวเซอร์ที่ `http://localhost:1420` เพื่อดู UI ถอดแบบ LINE PC (พร้อมระบบจำลอง Mock Peers, Dark Mode, Bubble Chat และ Reply)
+เปิดบราวเซอร์ที่ `http://localhost:1420` เพื่อดู UI ของ CraftChat (พร้อมระบบจำลอง Mock Peers, Dark Mode, Bubble Chat และ Reply)
 
 ---
 

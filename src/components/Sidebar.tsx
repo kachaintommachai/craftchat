@@ -38,7 +38,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   return (
     <>
-      {/* Desktop Vertical Sidebar (LINE PC Style) */}
+      {/* Desktop Vertical Sidebar */}
       <div className="hidden md:flex w-16 bg-line-sidebar flex-col items-center py-4 select-none justify-between h-full border-r border-gray-800 z-20 flex-shrink-0">
       {/* Top Group: Profile avatar & Navigation buttons */}
       <div className="flex flex-col items-center space-y-3 w-full">

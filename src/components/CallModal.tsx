@@ -141,7 +141,7 @@ export const CallModal: React.FC<CallModalProps> = ({
 
   if (!session) return null;
 
-  // 1. Incoming Call Dialog (สไตล์ LINE PC)
+  // 1. Incoming Call Dialog
   if (session.status === 'incoming') {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm select-none p-4 animate-fadeIn">
@@ -190,7 +190,7 @@ export const CallModal: React.FC<CallModalProps> = ({
     );
   }
 
-  // 2. Calling (Outbound) or Connected Call Window (สไตล์ LINE PC)
+  // 2. Calling (Outbound) or Connected Call Window
   return (
     <div
       className={`fixed z-50 transition-all select-none ${
@@ -294,7 +294,7 @@ export const CallModal: React.FC<CallModalProps> = ({
           )}
         </div>
 
-        {/* Bottom Floating Control Bar (LINE PC Style) */}
+        {/* Bottom Floating Control Bar */}
         <div className="h-20 bg-[#20252D] border-t border-gray-700/80 flex items-center justify-center gap-4 px-6 z-20">
           {/* Mute Mic */}
           <button

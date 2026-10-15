@@ -175,7 +175,7 @@ export const StatusModal: React.FC<StatusModalProps> = ({
         {/* Live Preview Card */}
         <div className="p-5 pb-3 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900/40 dark:to-[#20242B] border-b border-gray-100 dark:border-gray-800 flex flex-col items-center">
           <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-2">
-            ตัวอย่างการแสดงผลบน LINE PC
+            ตัวอย่างการแสดงผลบน CraftChat Desktop
           </span>
 
           <div className="w-full bg-white dark:bg-[#282E38] rounded-2xl p-3.5 shadow-md border border-gray-200/80 dark:border-gray-700/80 flex items-center gap-3.5 relative overflow-hidden">

@@ -11,7 +11,7 @@ use craft_chat_core::{
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error + Send + Sync>> {
     println!("=====================================================");
-    println!("  CraftChat LAN P2P Core Daemon (LINE PC Architecture)");
+    println!("  CraftChat LAN P2P Core Daemon (Serverless P2P)");
     println!("=====================================================");
 
     // 1. Storage & Identity

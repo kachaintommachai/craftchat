@@ -51,7 +51,7 @@ export const THEME_PRESETS: ThemePreset[] = [
   {
     id: 'classic-green',
     name: 'เขียวคลาสสิก LINE (Classic LINE Green)',
-    description: 'ธีมดั้งเดิม: สีเขียวสดใส LINE PC คู่กับสีขาวและเทาดำ',
+    description: 'ธีมดั้งเดิม: สีเขียวสดใสคู่กับสีขาวและเทาดำ',
     primaryColor: '#06C755',
     goldColor: '#EAB308',
     bgColor: '#FFFFFF',

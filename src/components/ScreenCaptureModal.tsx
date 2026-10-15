@@ -454,7 +454,7 @@ export const ScreenCaptureModal: React.FC<ScreenCaptureModalProps> = ({
         <div className="px-5 py-2 bg-[#252B34] border-t border-gray-700/80 flex items-center justify-between text-[11px] text-gray-400 select-none">
           <span className="flex items-center gap-1.5">
             <Camera className="w-3.5 h-3.5 text-line-green" />
-            <span>โหมดจับภาพและวาดเส้นสไตล์ LINE PC</span>
+            <span>โหมดจับภาพและวาดเส้น</span>
           </span>
           <span>คลิกและลากเมาส์บนภาพเพื่อวาดเส้น ตีกรอบ หรือชี้ลูกศร</span>
         </div>

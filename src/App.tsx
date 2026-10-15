@@ -745,7 +745,7 @@ export const App: React.FC = () => {
 
   return (
     <div className="flex h-screen h-[100dvh] w-screen overflow-hidden antialiased bg-gray-100 dark:bg-[#181B20] relative">
-      {/* 1. Left Navigation Bar (LINE PC Desktop Sidebar + Mobile Bottom Tab Bar) */}
+      {/* 1. Left Navigation Bar (Desktop Sidebar + Mobile Bottom Tab Bar) */}
       <Sidebar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
@@ -805,7 +805,7 @@ export const App: React.FC = () => {
         />
       </div>
 
-      {/* User Status with Sticker Modal (LINE PC Style) */}
+      {/* User Status with Sticker Modal */}
       <StatusModal
         isOpen={statusModalOpen}
         onClose={() => setStatusModalOpen(false)}
@@ -838,7 +838,7 @@ export const App: React.FC = () => {
         onCreateGroup={handleCreateGroup}
       />
 
-      {/* Voice & Video Call Modal (LINE PC Style) */}
+      {/* Voice & Video Call Modal */}
       <CallModal
         session={activeCallSession}
         onAcceptCall={handleAcceptCall}
