@@ -15,12 +15,21 @@
 
 ## 🐧 2. Linux (`.AppImage`)
 - **ไฟล์:** [`releases/linux/CraftChat-x86_64.AppImage`](linux/CraftChat-x86_64.AppImage)
-- **ประเภท:** Universal Linux Standalone Executable (SquashFS AppImage)
+- **ประเภท:** Universal Linux Standalone GUI Executable (SquashFS AppImage 4.3 MB)
+- **คุณสมบัติ:** บรรจุทั้ง P2P Daemon Backend และ GUI Frontend (Vite/React) พร้อมเปิดหน้าต่าง Desktop App ทันที
 - **วิธีใช้งาน:**
-  ```bash
-  chmod +x releases/linux/CraftChat-x86_64.AppImage
-  ./releases/linux/CraftChat-x86_64.AppImage
-  ```
+  1. ให้สิทธิ์ Execute:
+     ```bash
+     chmod +x releases/linux/CraftChat-x86_64.AppImage
+     ```
+  2. รันโปรแกรม (หรือดับเบิลคลิกจากตัวจัดการไฟล์):
+     ```bash
+     ./releases/linux/CraftChat-x86_64.AppImage
+     ```
+  3. *(กรณีระบบไม่ได้ติดตั้ง FUSE หรือบน Ubuntu 24.04):*
+     ```bash
+     ./releases/linux/CraftChat-x86_64.AppImage --appimage-extract-and-run
+     ```
 
 ---
 

@@ -11,7 +11,7 @@
 | ระบบปฏิบัติการ | ชนิดไฟล์ | ขนาด | ลิงก์ดาวน์โหลด | วิธีใช้งานเบื้องต้น |
 | :--- | :---: | :---: | :--- | :--- |
 | 🪟 **Windows** | `.exe` | 3.7 MB | [⬇️ ดาวน์โหลด CraftChat.exe](https://github.com/kachaintommachai/craftchat/raw/main/releases/windows/CraftChat.exe) | ดับเบิลคลิกเปิดใช้งานได้ทันทีบน Windows 10/11 |
-| 🐧 **Linux** | `.AppImage` | 2.2 MB | [⬇️ ดาวน์โหลด CraftChat-x86_64.AppImage](https://github.com/kachaintommachai/craftchat/raw/main/releases/linux/CraftChat-x86_64.AppImage) | ให้สิทธิ์ `chmod +x` แล้วดับเบิลคลิกรันได้ทุก Distro |
+| 🐧 **Linux** | `.AppImage` | 4.3 MB | [⬇️ ดาวน์โหลด CraftChat-x86_64.AppImage](https://github.com/kachaintommachai/craftchat/raw/main/releases/linux/CraftChat-x86_64.AppImage) | ให้สิทธิ์ `chmod +x` แล้วดับเบิลคลิกเปิดหน้าต่างแอพได้ทันที |
 | 🍏 **macOS** | `.app` / `.zip` | 2.4 MB | [⬇️ ดาวน์โหลด CraftChat-macOS.zip](https://github.com/kachaintommachai/craftchat/raw/main/releases/macos/CraftChat-macOS.zip) | แตกซิปแล้วลาก `CraftChat.app` ลงโฟลเดอร์ Applications |
 
 > 📁 **คลังไฟล์ติดตั้งทั้งหมดบน GitHub:** [https://github.com/kachaintommachai/craftchat/tree/main/releases](https://github.com/kachaintommachai/craftchat/tree/main/releases)  
