@@ -3,27 +3,29 @@ use std::io::{Read, Write};
 use std::net::{TcpListener, TcpStream};
 use std::path::{Path, PathBuf};
 use std::process::Command;
-use std::sync::atomic::{AtomicBool, Ordering};
-use std::sync::Arc;
 use std::thread;
+use std::time::Duration;
 
 fn get_mime(path: &Path) -> &'static str {
     match path.extension().and_then(|s| s.to_str()).unwrap_or("") {
         "html" => "text/html; charset=utf-8",
         "css" => "text/css; charset=utf-8",
-        "js" => "application/javascript; charset=utf-8",
+        "js" | "mjs" => "application/javascript; charset=utf-8",
         "json" => "application/json",
         "png" => "image/png",
         "jpg" | "jpeg" => "image/jpeg",
         "svg" => "image/svg+xml",
         "ico" => "image/x-icon",
+        "webp" => "image/webp",
+        "woff" => "font/woff",
         "woff2" => "font/woff2",
+        "ttf" => "font/ttf",
         _ => "application/octet-stream",
     }
 }
 
 fn handle_client(mut stream: TcpStream, dist_dir: &Path) {
-    let mut buffer = [0u8; 2048];
+    let mut buffer = [0u8; 4096];
     let n = match stream.read(&mut buffer) {
         Ok(n) if n > 0 => n,
         _ => return,
@@ -53,12 +55,12 @@ fn handle_client(mut stream: TcpStream, dist_dir: &Path) {
             let content = fs::read(&index_file).unwrap_or_default();
             ("200 OK", "text/html; charset=utf-8", content)
         } else {
-            ("404 Not Found", "text/plain", b"File Not Found".to_vec())
+            ("404 Not Found", "text/plain", b"CraftChat UI files not found".to_vec())
         }
     };
 
     let response = format!(
-        "HTTP/1.1 {}\r\nContent-Type: {}\r\nContent-Length: {}\r\nConnection: close\r\n\r\n",
+        "HTTP/1.1 {}\r\nContent-Type: {}\r\nContent-Length: {}\r\nAccess-Control-Allow-Origin: *\r\nConnection: close\r\n\r\n",
         status,
         content_type,
         body.len()
@@ -67,45 +69,100 @@ fn handle_client(mut stream: TcpStream, dist_dir: &Path) {
     let _ = stream.write_all(&body);
 }
 
-fn main() {
-    println!("Starting CraftChat Standalone GUI Launcher...");
+fn find_dist_dir() -> PathBuf {
+    // 1. Check AppImage runtime APPDIR environment variable
+    if let Ok(appdir) = std::env::var("APPDIR") {
+        let p = PathBuf::from(appdir).join("usr/share/craft-chat/dist");
+        if p.exists() && p.join("index.html").exists() {
+            return p;
+        }
+    }
 
-    // Find dist directory
-    let exe_dir = std::env::current_exe()
-        .ok()
-        .and_then(|p| p.parent().map(|p| p.to_path_buf()))
-        .unwrap_or_else(|| PathBuf::from("."));
+    // 2. Check relative to current executable
+    if let Ok(exe) = std::env::current_exe() {
+        if let Some(parent) = exe.parent() {
+            let candidates = [
+                parent.join("dist"),
+                parent.join("../share/craft-chat/dist"),
+                parent.join("../../dist"),
+                parent.join("../../../dist"),
+            ];
+            for c in candidates {
+                if c.exists() && c.join("index.html").exists() {
+                    return c;
+                }
+            }
+        }
+    }
 
-    let possible_paths = [
-        exe_dir.join("dist"),
-        exe_dir.join("../share/craft-chat/dist"),
-        exe_dir.join("../../dist"),
+    // 3. Check current working directory
+    let cwd_candidates = [
         PathBuf::from("dist"),
+        PathBuf::from("usr/share/craft-chat/dist"),
+    ];
+    for c in cwd_candidates {
+        if c.exists() && c.join("index.html").exists() {
+            return c;
+        }
+    }
+
+    PathBuf::from("dist")
+}
+
+fn launch_browser(url: &str) {
+    let browsers = [
+        ("google-chrome", vec![format!("--app={}", url), "--class=CraftChat".to_string()]),
+        ("google-chrome-stable", vec![format!("--app={}", url), "--class=CraftChat".to_string()]),
+        ("brave-browser", vec![format!("--app={}", url), "--class=CraftChat".to_string()]),
+        ("chromium", vec![format!("--app={}", url), "--class=CraftChat".to_string()]),
+        ("chromium-browser", vec![format!("--app={}", url), "--class=CraftChat".to_string()]),
+        ("firefox", vec!["-new-window".to_string(), url.to_string()]),
+        ("xdg-open", vec![url.to_string()]),
     ];
 
-    let dist_dir = possible_paths
-        .into_iter()
-        .find(|p| p.exists() && p.join("index.html").exists())
-        .unwrap_or_else(|| PathBuf::from("dist"));
+    for (bin, args) in browsers {
+        if Command::new(bin).args(&args).spawn().is_ok() {
+            println!("✔ Launched CraftChat window via {}", bin);
+            return;
+        }
+    }
 
-    println!("Serving UI from: {:?}", dist_dir);
+    eprintln!("⚠️ Note: Could not auto-open browser. Please visit: {}", url);
+}
 
-    // Pick available local port
-    let listener = TcpListener::bind("127.0.0.1:0").expect("Failed to bind local port");
-    let port = listener.local_addr().unwrap().port();
+fn main() {
+    println!("=====================================================");
+    println!("  CraftChat GUI Server & Launcher (Multi-OS Desktop)  ");
+    println!("=====================================================");
+
+    let dist_dir = find_dist_dir();
+    println!("📂 UI Assets directory: {:?}", dist_dir);
+
+    // Try binding default port 4243, fallback to port 0 if busy
+    let target_port = 4243;
+    let (listener, port) = match TcpListener::bind(format!("127.0.0.1:{}", target_port)) {
+        Ok(l) => (l, target_port),
+        Err(_) => {
+            // Check if CraftChat is already running on port 4243
+            if TcpStream::connect(format!("127.0.0.1:{}", target_port)).is_ok() {
+                println!("ℹ CraftChat server is already active on port {}.", target_port);
+                let url = format!("http://127.0.0.1:{}", target_port);
+                launch_browser(&url);
+                return;
+            }
+            let l = TcpListener::bind("127.0.0.1:0").expect("Failed to bind any local port");
+            let p = l.local_addr().unwrap().port();
+            (l, p)
+        }
+    };
+
     let url = format!("http://127.0.0.1:{}", port);
-    println!("Web UI listening at: {}", url);
+    println!("🌐 CraftChat UI listening at: {}", url);
 
+    // Start background thread for HTTP static server
     let dist_dir_clone = dist_dir.clone();
-    let running = Arc::new(AtomicBool::new(true));
-    let r_clone = running.clone();
-
-    // Start HTTP server thread
     thread::spawn(move || {
         for stream in listener.incoming() {
-            if !r_clone.load(Ordering::Relaxed) {
-                break;
-            }
             if let Ok(stream) = stream {
                 let dist = dist_dir_clone.clone();
                 thread::spawn(move || {
@@ -115,28 +172,12 @@ fn main() {
         }
     });
 
-    // Try launch browser in App mode
-    let browsers = [
-        ("google-chrome", vec![format!("--app={}", url), "--class=CraftChat".to_string()]),
-        ("google-chrome-stable", vec![format!("--app={}", url), "--class=CraftChat".to_string()]),
-        ("brave-browser", vec![format!("--app={}", url), "--class=CraftChat".to_string()]),
-        ("chromium", vec![format!("--app={}", url), "--class=CraftChat".to_string()]),
-        ("chromium-browser", vec![format!("--app={}", url), "--class=CraftChat".to_string()]),
-        ("firefox", vec!["-new-window".to_string(), url.clone()]),
-        ("xdg-open", vec![url.clone()]),
-    ];
+    // Launch desktop app window in browser
+    launch_browser(&url);
 
-    let mut launched = false;
-    for (bin, args) in browsers {
-        if let Ok(mut child) = Command::new(bin).args(&args).spawn() {
-            println!("Launched CraftChat via {}", bin);
-            launched = true;
-            let _ = child.wait();
-            break;
-        }
-    }
-
-    if !launched {
-        eprintln!("Could not launch browser window automatically. Please open {} in your browser.", url);
+    // Keep server alive so AppImage mount and web server do not exit!
+    println!("🚀 CraftChat is running! Keep this process active while using the app.");
+    loop {
+        thread::sleep(Duration::from_secs(3600));
     }
 }
